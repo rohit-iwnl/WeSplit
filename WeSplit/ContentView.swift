@@ -12,6 +12,8 @@ struct ContentView: View {
     @State private var noOfPeople = 2
     @State private var tipPercentage = 20
     
+    @FocusState private var isAmountFocused : Bool
+    
     var totalPerPerson : Double {
         if(checkAmount==0){
             return 0
@@ -34,6 +36,7 @@ struct ContentView: View {
                 Section(header: Text("Check Amount")){
                     TextField("Enter your check amount", value: $checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                         .keyboardType(.decimalPad)
+                        .focused($isAmountFocused)
                 }
                 
                 Section(header: Text("Split By")){
@@ -59,6 +62,13 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("WeSplit")
+            .toolbar{
+                if isAmountFocused == true {
+                    Button("Done"){
+                        isAmountFocused = false
+                    }
+                }
+            }
         }
     }
 }
